@@ -49,7 +49,7 @@ Instead of relying on guesswork or generic lists, users get snack guidance that 
 ### 🧠 Orchestrator Agent
 
 - Reads user message
-- Calls memory tool, `user_profile_tool`
+- Calls memory tool, `get_user_profile`
 - Builds A2A payload
 - Sends payload to the Diet Agent
 - Formats & returns the final answer
@@ -58,7 +58,7 @@ Instead of relying on guesswork or generic lists, users get snack guidance that 
 
 - Receives structured payload
 - Calls:
-  - `user_profile_tool`
+  - `get_user_profile`
   - `snack_db_tool`
   - `gut_knowledge_retriever` (RAG)
 - Filters snacks
