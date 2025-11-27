@@ -48,11 +48,26 @@ Instead of relying on guesswork or generic lists, users get snack guidance that 
 
 ## 🧱 Architecture
 
-### SnackPipelineAgent (Sequential Agent)
+![Alt text](./assets/images/snack_guardian_architecture.png)
 
-This is the root agent and it calls the subagents below in order.
+### 🧠 GuardianDialogueAgent | Orchestrator
 
-#### 1. UserProfileAgent
+This is the root agent whom the user communicates with. It remembers personal details, acknowledges new information, summarizes what it knows, keeps a friendly, gentle tone and decides when to call the SnackGenerationPipeline.
+
+It only calls the pipeline when:
+
+- the user asks about snacks
+- the user asks what they can eat
+- the user asks for “something gentle”
+- the user gives new long-term profile info (diet, restrictions, gut condition, etc.)
+
+If the user is just chatting, the dialogue agent replies conversationally and does not call any tools.
+
+### ⚙️ SnackPipelineAgent | Sequential Workflow
+
+This pipeline runs only when the user asks for snacks or gives new profile info. It performs all the actual “work” (update profile → RAG → snack generation).
+
+#### 1. 👤 UserProfileAgent
 
 Extracts user profile information from each message:
 
@@ -84,20 +99,6 @@ Creates 1–2 snack ideas + simple recipe steps that respect user's diet.
 - Uses google_search (built-in ADK tool) to find recipe inspiration
 - Produces simple recipes (2–4 steps)
 - Avoids plain ingredients (no “just eat a banana”)
-
-#### 4. 🔍 DialogueAgent
-
-It receives:
-
-- `user_profile_json`
-- `gut_knowledge`
-- `snack_suggestions`
-
-and communicates with the user in a natural and friendly way.
-
-### 🔁 Response Flow
-
-**User → SnackPipeLineAgent → UserProfileAgent → ConditionRAGAgent → SnackChefAgent → DialogueAgent → User**
 
 ## 🍪 Stay Tuned
 
