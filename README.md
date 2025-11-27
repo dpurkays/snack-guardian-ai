@@ -34,39 +34,70 @@ Instead of relying on guesswork or generic lists, users get snack guidance that 
 
 - Python
 - Kaggle Notebook
-- Google's ADK
+- Google's ADK (Agent Development Kit)
+- Gemini 2.5 Flash Lite
+- SQLite (DatabaseSessionService)
 
 ## 📚 Concepts Used
 
-- Multi-agent
-  - Sequential Flow
+- Multi-agent Architecture
+- Sequential Agent Workflow
 - Custom Tools
 - Persistent Memory
 - RAG
 
 ## 🧱 Architecture
 
-### 🧠 Orchestrator Agent
+### SnackPipelineAgent (Sequential Agent)
 
-- Reads user message
-- Calls memory tool, `get_user_profile`
-- Builds A2A payload
-- Sends payload to the Diet Agent
-- Formats & returns the final answer
+This is the root agent and it calls the subagents below in order.
 
-### 🔍 Specialist Agent
+#### 1. UserProfileAgent
 
-- Receives structured payload
-- Calls:
-  - `get_user_profile`
-  - `snack_db_tool`
-  - `gut_knowledge_retriever` (RAG)
-- Filters snacks
-- Sends structured suggestions back
+Extracts user profile information from each message:
+
+- name
+- diet preferences
+- avoid ingredients
+- gut conditions
+
+Outputs a clean JSON profile, `user_profile_json`
+This profile is passed to the next agent and reused in the dialogue.
+
+#### 2. 🔍 ConditionRAGAgent
+
+Looks up gut-friendly “safe” and “avoid” foods using a local JSON RAG knowledge base.
+
+- Receives the user’s structured profile, `user_profile_json`
+- Detects which condition applies
+- Calls the custom tool: `gut_condition_lookup(query)`
+- Returns either:
+  - a list of matched condition entries, or
+  - "None" if no condition applies
+
+#### 3. 🍳 SnackChefAgent
+
+Creates 1–2 snack ideas + simple recipe steps that respect user's diet.
+
+- Uses user_profile_json
+- Uses gut_knowledge
+- Uses google_search (built-in ADK tool) to find recipe inspiration
+- Produces simple recipes (2–4 steps)
+- Avoids plain ingredients (no “just eat a banana”)
+
+#### 4. 🔍 DialogueAgent
+
+It receives:
+
+- `user_profile_json`
+- `gut_knowledge`
+- `snack_suggestions`
+
+and communicates with the user in a natural and friendly way.
 
 ### 🔁 Response Flow
 
-**User → Orchestrator Agent → Specialist Agent → Orchestrator → User**
+**User → SnackPipeLineAgent → UserProfileAgent → ConditionRAGAgent → SnackChefAgent → DialogueAgent → User**
 
 ## 🍪 Stay Tuned
 
