@@ -1,3 +1,5 @@
+![banner](./assets/images/banner.png)
+
 # Snack Guardian AI
 
 A Personalized AI Snack Concierge for Sensitive Stomachs
@@ -5,6 +7,12 @@ A Personalized AI Snack Concierge for Sensitive Stomachs
 > **Note:** Snack Guardian is being developed as the Capstone Project for the **Kaggle × Google 5-Day AI Agents Intensive (November 2025)**
 >
 > You can have a look at this [repo, 5-day AI Agent (Google X Kaggle)](https://github.com/dpurkays/5day-ai-agents-google-kaggle) for my notes and codelabs.
+
+### 🔗 Quick Links
+
+- 📄 **Project Write-Up** → [Read on Kaggle](https://www.kaggle.com/competitions/agents-intensive-capstone-project/writeups/snack-guardian-ai)
+- 📓 **Kaggle Notebook (Code & Full documentation)** → [Open Notebook](https://www.kaggle.com/code/dulapurkaystha/snack-guardian-ai) or [See it here on **Github**](./snack-guardian-ai.ipynb)
+- 🎥 **Demo Video** → [Watch on YouTube](https://www.youtube.com/watch?v=PhwemMq-q8k)
 
 ## 🧩 Problem
 
